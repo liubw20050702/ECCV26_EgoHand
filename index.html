@@ -1,42 +1,672 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello ECCV 2026</title>
+  <title>EgoPoint-Ground — ECCV 2026</title>
   <style>
+    :root {
+      --primary: #5b4fcf;
+      --primary-dark: #3d3599;
+      --accent: #7c6ff7;
+      --bg: #f8f7ff;
+      --card: #ffffff;
+      --text: #2d2d3a;
+      --text-secondary: #5c5c72;
+      --border: #e8e6f5;
+      --tag-bg: #ede9fe;
+      --tag-text: #5b4fcf;
+      --gold: #f0a040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
     }
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 60px 80px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+
+    /* ── Hero ─────────────────────────────── */
+    .hero {
+      background: linear-gradient(145deg, #3d3599 0%, #5b4fcf 40%, #7c6ff7 70%, #9b8fff 100%);
+      color: white;
+      padding: 80px 24px 70px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    h1 {
-      color: #333;
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 30%, rgba(255,255,255,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px;
+      padding: 6px 20px;
+      font-size: 0.9em;
+      font-weight: 500;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .hero h1 {
+      font-size: clamp(2em, 5vw, 3.2em);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      max-width: 900px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+    .hero .authors {
+      font-size: 1.15em;
+      opacity: 0.9;
+      max-width: 640px;
+      margin: 0 auto 8px;
+      position: relative;
+    }
+    .hero .affiliations {
+      font-size: 0.9em;
+      opacity: 0.65;
+      position: relative;
+    }
+
+    /* ── Container ────────────────────────── */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Sections ─────────────────────────── */
+    section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    section:last-of-type { border-bottom: none; }
+
+    .section-title {
+      font-size: 1.7em;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 28px;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+
+    /* ── Abstract ─────────────────────────── */
+    .abstract-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 36px 40px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
+      border: 1px solid var(--border);
+      font-size: 1.05em;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+    .abstract-card .keywords {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .abstract-card .keywords span {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: 0.85em;
+      font-weight: 500;
+    }
+
+    /* ── Stats Grid ───────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 28px 20px;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .stat-number {
       font-size: 2.5em;
-      margin: 0 0 10px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.1;
     }
-    p {
-      color: #666;
-      font-size: 1.2em;
-      margin: 0;
+    .stat-number small { font-size: 0.55em; font-weight: 600; }
+    .stat-label {
+      font-size: 0.9em;
+      color: var(--text-secondary);
+      margin-top: 6px;
+    }
+
+    /* ── Image card ───────────────────────── */
+    .img-card {
+      background: var(--card);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .img-card img {
+      width: 100%;
+      display: block;
+    }
+    .img-caption {
+      padding: 14px 20px;
+      font-size: 0.9em;
+      color: var(--text-secondary);
+      background: #fafaff;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Tables ───────────────────────────── */
+    .table-wrapper {
+      overflow-x: auto;
+      background: var(--card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      padding: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9em;
+    }
+    th {
+      background: #f5f3ff;
+      color: var(--primary-dark);
+      font-weight: 600;
+      padding: 12px 10px;
+      text-align: center;
+      border-bottom: 2px solid #dcd8f5;
+      white-space: nowrap;
+    }
+    td {
+      padding: 9px 10px;
+      text-align: center;
+      border-bottom: 1px solid #f0edfa;
+    }
+    tr:last-child td { border-bottom: none; }
+    .highlight-row td {
+      font-weight: 700;
+      background: #f5f3ff;
+    }
+    .human-row td {
+      background: #eef0ff;
+      color: var(--primary-dark);
+    }
+    .tier-gap td { padding-top: 14px; }
+
+    .table-caption {
+      font-size: 0.85em;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+    .check { color: #22a861; }
+    .cross { color: #d14545; }
+
+    /* ── Model Section ────────────────────── */
+    .model-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .model-step {
+      flex: 1 1 180px;
+      background: var(--card);
+      border-radius: 12px;
+      padding: 24px 20px;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .model-step .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      font-size: 1em;
+      margin-bottom: 10px;
+    }
+    .model-step h4 {
+      font-size: 0.95em;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+    .model-step p {
+      font-size: 0.82em;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ── Contribution list ────────────────── */
+    .contrib-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 16px;
+    }
+    .contrib-item {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 24px 28px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .contrib-num {
+      font-size: 1.6em;
+      font-weight: 800;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .contrib-item h4 {
+      font-size: 0.95em;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+    }
+    .contrib-item p {
+      font-size: 0.85em;
+      color: var(--text-secondary);
+    }
+
+    /* ── Links ────────────────────────────── */
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.92em;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-outline {
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+    }
+    .btn-outline:hover { background: var(--tag-bg); }
+
+    /* ── Footer ───────────────────────────── */
+    footer {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.82em;
+      padding: 36px 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 50px 16px 44px; }
+      section { padding: 40px 0; }
+      .abstract-card { padding: 24px; }
+      .contrib-list { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>👋 Hello, ECCV 2026!</h1>
-    <p>这是一个最简单的 GitHub Pages Demo</p>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="hero">
+  <div class="hero-badge">ECCV 2026</div>
+  <h1>Beyond Language: Grounding Referring Expressions with Hand Pointing in Egocentric Vision</h1>
+  <p class="authors">
+    Ling Li · Bowen Liu · Zinuo Zhan · Pengjie · Jiahui Zhong · Kenglun Chang · Zhidong Deng*
+  </p>
+  <p class="affiliations">
+    Tsinghua University &nbsp;·&nbsp; Dalian University of Technology &nbsp;·&nbsp;
+    Northwestern Polytechnical University &nbsp;·&nbsp; Apple
+  </p>
+</header>
+
+<!-- ═══════════════ ABSTRACT ═══════════════ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Abstract</h2>
+    <div class="abstract-card">
+      <p>
+        Traditional Visual Grounding (VG) predominantly relies on textual descriptions to localize objects,
+        a paradigm that inherently struggles with linguistic ambiguity and often ignores non-verbal deictic
+        cues prevalent in real-world interactions. To bridge this gap, we introduce
+        <strong>EgoPoint-Ground</strong>, the <strong>first large-scale multimodal dataset</strong> dedicated
+        to egocentric deictic visual grounding. Comprising over <strong>15k</strong> interactive samples
+        in complex scenes, the dataset provides rich, multi-grained annotations including hand-target
+        bounding box pairs and dense semantic captions. We establish a comprehensive benchmark and propose
+        <strong>SV-CoT</strong>, a novel baseline framework that synergizes gestural and linguistic cues
+        through a Visual Chain-of-Thought paradigm, achieving an <strong>11.7% absolute improvement</strong>
+        over existing methods.
+      </p>
+      <div class="keywords">
+        <span>Visual Grounding</span>
+        <span>Hand-Pointing Grounding</span>
+        <span>Multimodal Dataset</span>
+        <span>Egocentric Vision</span>
+        <span>Embodied AI</span>
+      </div>
+    </div>
   </div>
+</section>
+
+<!-- ═══════════════ DATASET OVERVIEW ═══════════════ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Dataset Overview</h2>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">15,338</div>
+        <div class="stat-label">Total Images</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">140</div>
+        <div class="stat-label">Object Categories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">20<small>+</small></div>
+        <div class="stat-label">Everyday Scenarios</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2.8</div>
+        <div class="stat-label">Avg. Candidate Objects / Image</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">42.5<small>%</small></div>
+        <div class="stat-label">Targets with Moderate/Severe Occlusion</div>
+      </div>
+    </div>
+
+    <div class="img-card" style="margin-bottom:24px">
+      <img src="images/figure1.png" alt="EgoPoint-Ground dataset overview — comparing traditional REC with hand-pointing grounding">
+      <div class="img-caption">
+        <strong>Figure 1:</strong> Our dataset features egocentric images with hand-pointing toward target objects.
+        Four core annotations: Hand, Target Object, Image Caption, and Visual QA Pairs.
+        Unlike traditional REC (language-only), our task uses physical hand cues for disambiguation.
+      </div>
+    </div>
+
+    <div class="img-card">
+      <img src="images/figure5.png" alt="Example images from the EgoPoint-Ground dataset showing hand and object bounding boxes">
+      <div class="img-caption">
+        <strong>Figure 5:</strong> Example images from EgoPoint-Ground with bounding boxes for hand (red) and target
+        object (green), along with corresponding captions. The first row shows real-world captures.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ DATASET COMPARISON ═══════════════ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Dataset Comparison</h2>
+    <p class="table-caption">
+      Feature comparison of EgoPoint versus representative reference datasets.
+      <strong>✓</strong> = feature present, <strong>✗</strong> = absent.
+    </p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Language</th>
+            <th>Gesture</th>
+            <th>Embodied</th>
+            <th>Ego/Exo</th>
+            <th>Pose</th>
+            <th>VQA</th>
+            <th>Source</th>
+            <th>No. Images</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>PointAt</td>        <td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td><td>Ego</td><td class="cross">✗</td><td class="cross">✗</td><td>Lab</td><td>220</td></tr>
+          <tr><td>ReferAt</td>        <td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td><td>Exo</td><td class="cross">✗</td><td class="cross">✗</td><td>Lab</td><td>242</td></tr>
+          <tr><td>RefCOCO</td>        <td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td>Exo</td><td class="cross">✗</td><td class="cross">✗</td><td>MSCOCO</td><td>19,994</td></tr>
+          <tr><td>RefCOCO+</td>       <td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td>Exo</td><td class="cross">✗</td><td class="cross">✗</td><td>MSCOCO</td><td>19,992</td></tr>
+          <tr><td>RefCOCOg</td>       <td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td>Exo</td><td class="cross">✗</td><td class="cross">✗</td><td>MSCOCO</td><td>26,711</td></tr>
+          <tr><td>Flickr30k ent.</td> <td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td>Exo</td><td class="cross">✗</td><td class="cross">✗</td><td>Flickr30K</td><td>31,783</td></tr>
+          <tr><td>GuessWhat?</td>     <td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td>Exo</td><td class="cross">✗</td><td class="cross">✗</td><td>MSCOCO</td><td>66,537</td></tr>
+          <tr><td>Cops-Ref</td>       <td class="cross">✗</td><td class="check">✓</td><td class="cross">✗</td><td>Exo</td><td class="cross">✗</td><td class="cross">✗</td><td>COCO/Flickr</td><td>75,299</td></tr>
+          <tr><td>YourRefIt</td>      <td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td>Exo</td><td class="cross">✗</td><td class="cross">✗</td><td>Crowd-Sourced</td><td>497,348</td></tr>
+          <tr class="highlight-row">
+            <td><strong>Ours</strong></td>
+            <td class="check"><strong>✓</strong></td>
+            <td class="check"><strong>✓</strong></td>
+            <td class="check"><strong>✓</strong></td>
+            <td><strong>Ego</strong></td>
+            <td class="check"><strong>✓</strong></td>
+            <td class="check"><strong>✓</strong></td>
+            <td><strong>Mixed/Hybrid</strong></td>
+            <td><strong>15,338</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.82em;color:var(--text-secondary);margin-top:12px;">
+      <strong>Note:</strong> Our dataset is the first to simultaneously provide Language, Gesture, Embodied,
+      Egocentric perspective, Pose annotations, and VQA pairs — uniquely supporting multimodal deictic grounding research.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════ BENCHMARK RESULTS ═══════════════ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">EDG Benchmark Results</h2>
+    <p class="table-caption">
+      Quantitative results on the Egocentric Deictic Visual Grounding (EDG) task.
+      Precision @ IoU thresholds (0.3 / 0.5 / 0.7), evaluated on Hybrid and Real-World splits.
+    </p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Model</th>
+            <th colspan="3">EDG — Hybrid</th>
+            <th colspan="3">EDG — Real-World</th>
+          </tr>
+          <tr>
+            <th>P@0.3 ↑</th><th>P@0.5 ↑</th><th>P@0.7 ↑</th>
+            <th>P@0.3 ↑</th><th>P@0.5 ↑</th><th>P@0.7 ↑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Top Tier -->
+          <tr><td style="text-align:left">Qwen3-VL-4B</td>       <td>0.743</td><td>0.702</td><td>0.622</td><td>0.747</td><td>0.699</td><td>0.616</td></tr>
+          <tr><td style="text-align:left">Qwen2.5-VL-3B</td>      <td>0.731</td><td>0.671</td><td>0.592</td><td>0.738</td><td>0.632</td><td>0.488</td></tr>
+          <tr><td style="text-align:left">Qwen3-VL-8B</td>        <td>0.726</td><td>0.676</td><td>0.598</td><td>0.789</td><td>0.701</td><td>0.593</td></tr>
+          <tr><td style="text-align:left">Qwen2.5-VL-7B</td>      <td>0.721</td><td>0.653</td><td>0.563</td><td>0.776</td><td>0.688</td><td>0.533</td></tr>
+          <!-- Mid Tier -->
+          <tr class="tier-gap"><td style="text-align:left">LLaVA-OneVision-4B</td>  <td>0.679</td><td>0.475</td><td>0.145</td><td>0.654</td><td>0.431</td><td>0.129</td></tr>
+          <tr><td style="text-align:left">InternVL-3.5-8B</td>     <td>0.554</td><td>0.413</td><td>0.270</td><td>0.592</td><td>0.427</td><td>0.214</td></tr>
+          <tr><td style="text-align:left">GroundingGPT</td>        <td>0.447</td><td>0.358</td><td>0.219</td><td>0.354</td><td>0.259</td><td>0.127</td></tr>
+          <tr><td style="text-align:left">DeepSeek-VL2</td>        <td>0.344</td><td>0.293</td><td>0.259</td><td>0.364</td><td>0.296</td><td>0.245</td></tr>
+          <!-- Baseline Tier -->
+          <tr class="tier-gap"><td style="text-align:left">LLaVA-v1.5-13B</td>      <td>0.338</td><td>0.198</td><td>0.079</td><td>0.274</td><td>0.128</td><td>0.042</td></tr>
+          <tr><td style="text-align:left">Ferret-7B</td>           <td>0.282</td><td>0.221</td><td>0.181</td><td>0.258</td><td>0.203</td><td>0.160</td></tr>
+          <tr><td style="text-align:left">Florence2-Large</td>      <td>0.241</td><td>0.188</td><td>0.149</td><td>0.234</td><td>0.193</td><td>0.153</td></tr>
+          <tr><td style="text-align:left">Florence2-Base</td>       <td>0.149</td><td>0.110</td><td>0.080</td><td>0.141</td><td>0.121</td><td>0.075</td></tr>
+          <!-- Ours & Human -->
+          <tr class="highlight-row">
+            <td style="text-align:left"><strong>SV-CoT [Qwen3-VL] (Ours)</strong></td>
+            <td><strong>0.795</strong></td><td><strong>0.756</strong></td><td><strong>0.718</strong></td>
+            <td><strong>0.820</strong></td><td><strong>0.818</strong></td><td><strong>0.727</strong></td>
+          </tr>
+          <tr class="human-row">
+            <td style="text-align:left">Human Study</td>
+            <td>0.979</td><td>0.914</td><td>0.846</td><td>0.994</td><td>0.918</td><td>0.874</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ D-VQA RESULTS ═══════════════ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">D-VQA Results</h2>
+    <p class="table-caption">
+      Performance on the Deictic Visual Question Answering task. Acc. = Accuracy, M-F1 = Macro-F1, Rec. = Recall.
+    </p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Model</th>
+            <th colspan="3">D-VQA (Hybrid)</th>
+            <th colspan="3">D-VQA (Real-World)</th>
+          </tr>
+          <tr>
+            <th>Acc. ↑</th><th>M-F1 ↑</th><th>Rec. ↑</th>
+            <th>Acc. ↑</th><th>M-F1 ↑</th><th>Rec. ↑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="text-align:left">LLaVA-OneVision-8B</td>  <td>0.531</td><td>0.519</td><td>0.548</td><td>0.544</td><td>0.525</td><td>0.526</td></tr>
+          <tr><td style="text-align:left">LLaVA-OneVision-4B</td>  <td>0.510</td><td>0.535</td><td>0.547</td><td>0.521</td><td>0.476</td><td>0.487</td></tr>
+          <tr><td style="text-align:left">Qwen3-VL-8B</td>         <td>0.494</td><td>0.484</td><td>0.490</td><td>0.517</td><td>0.510</td><td>0.503</td></tr>
+          <tr><td style="text-align:left">Qwen3-VL-4B</td>         <td>0.471</td><td>0.488</td><td>0.495</td><td>0.456</td><td>0.507</td><td>0.489</td></tr>
+          <tr class="tier-gap"><td style="text-align:left">Qwen2.5-VL-7B</td>       <td>0.457</td><td>0.427</td><td>0.445</td><td>0.444</td><td>0.428</td><td>0.411</td></tr>
+          <tr><td style="text-align:left">DeepSeek-VL2-Small</td>  <td>0.413</td><td>0.459</td><td>0.455</td><td>0.457</td><td>0.523</td><td>0.506</td></tr>
+          <tr><td style="text-align:left">DeepSeek-VL2</td>        <td>0.412</td><td>0.461</td><td>0.473</td><td>0.393</td><td>0.397</td><td>0.390</td></tr>
+          <tr class="tier-gap"><td style="text-align:left">InternVL-3.5-4B</td>     <td>0.445</td><td>0.461</td><td>0.445</td><td>0.433</td><td>0.368</td><td>0.367</td></tr>
+          <tr><td style="text-align:left">GroundingGPT</td>        <td>0.334</td><td>0.363</td><td>0.364</td><td>0.392</td><td>0.352</td><td>0.350</td></tr>
+          <tr><td style="text-align:left">LLaVA-v1.5-13B</td>      <td>0.267</td><td>0.249</td><td>0.245</td><td>0.147</td><td>0.150</td><td>0.137</td></tr>
+          <tr class="human-row">
+            <td style="text-align:left"><strong>Human Study</strong></td>
+            <td><strong>0.811</strong></td><td><strong>0.631</strong></td><td><strong>0.653</strong></td>
+            <td><strong>0.877</strong></td><td><strong>0.756</strong></td><td><strong>0.753</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SV-CoT MODEL ═══════════════ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">SV-CoT Framework</h2>
+    <p style="margin-bottom:20px;color:var(--text-secondary);">
+      We propose <strong>Spatial-Reasoning-based Visual Chain-of-Thought (SV-CoT)</strong>, a zero-shot
+      baseline that reformulates grounding as a structured inference process. The hand bounding box is aligned
+      into discrete spatial anchors, and grounding proceeds through a latent reasoning chain:
+    </p>
+    <div class="model-flow">
+      <div class="model-step">
+        <div class="step-num">1</div>
+        <h4>Deictic Intent Parsing</h4>
+        <p>Analyze hand orientation within the spatial anchor to infer a 2D pointing vector <strong>v⃗</strong></p>
+      </div>
+      <div class="model-step">
+        <div class="step-num">2</div>
+        <h4>Geometric Trajectory Simulation</h4>
+        <p>Cast a virtual ray to spatially prune distractors into a candidate set <strong>Ω</strong></p>
+      </div>
+      <div class="model-step">
+        <div class="step-num">3</div>
+        <h4>Spatio-semantic Verification</h4>
+        <p>Multi-modal alignment check to resolve the target or explicitly reject via threshold <strong>τ</strong></p>
+      </div>
+    </div>
+    <p style="font-size:0.88em;color:var(--text-secondary);text-align:center;">
+      SV-CoT achieves <strong style="color:var(--primary);">+11.7%</strong> absolute improvement over
+      language-only baselines by synergizing gestural and linguistic cues through explicit geometric reasoning.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════ CONTRIBUTIONS ═══════════════ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Contributions</h2>
+    <div class="contrib-list">
+      <div class="contrib-item">
+        <div class="contrib-num">1</div>
+        <div>
+          <h4>EgoPoint-Ground Dataset</h4>
+          <p>First large-scale multimodal dataset for first-person hand-pointing referring, with 15k+ samples spanning hand poses, object locations, and referring expressions.</p>
+        </div>
+      </div>
+      <div class="contrib-item">
+        <div class="contrib-num">2</div>
+        <div>
+          <h4>Comprehensive Benchmark</h4>
+          <p>Evaluation benchmark for hand-pointing referring expression resolution, systematically analyzing limitations of SOTA models on EDG and D-VQA tasks.</p>
+        </div>
+      </div>
+      <div class="contrib-item">
+        <div class="contrib-num">3</div>
+        <div>
+          <h4>SV-CoT Baseline Model</h4>
+          <p>Visual Chain-of-Thought framework that fuses gestural and linguistic information, achieving 11.7% improvement in referring localization accuracy.</p>
+        </div>
+      </div>
+      <div class="contrib-item">
+        <div class="contrib-num">4</div>
+        <div>
+          <h4>Open-source Release</h4>
+          <p>Dataset, benchmark code, and model publicly released to advance research in multimodal referring and embodied AI.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p style="margin-bottom:8px;"><strong>EgoPoint-Ground</strong> · ECCV 2026</p>
+    <p>Dataset and code will be made publicly available.</p>
+  </div>
+</footer>
+
 </body>
 </html>

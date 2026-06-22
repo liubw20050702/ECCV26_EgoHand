@@ -1,5 +1,8 @@
 # Paper LaTeX source
 ECCV2026_Dataset/
+skills/
+data/
+.claude/
 
 # OS files
 .DS_Store

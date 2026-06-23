@@ -248,14 +248,11 @@
       overflow: hidden;
       border: 1px solid var(--border);
       transition: box-shadow 0.25s ease;
-      display: flex;
-      flex-direction: column;
     }
     .gallery-card:hover {
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
     .gallery-card .img-wrap {
-      flex-shrink: 0;
       width: 100%;
       aspect-ratio: 4/3;
       overflow: hidden;
@@ -265,27 +262,6 @@
       height: 100%;
       display: block;
       object-fit: cover;
-    }
-    .gallery-caption {
-      padding: 12px 16px;
-      font-size: 0.84em;
-      color: var(--text-muted);
-      line-height: 1.55;
-      border-top: 1px solid var(--border-light);
-      background: #fafbfc;
-      flex: 1 1 auto;
-    }
-    .gallery-caption strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .gallery-section-note {
-      font-size: 0.9em;
-      color: var(--text-muted);
-      margin-top: 16px;
-      text-align: center;
-      font-style: italic;
     }
 
     /* ── Features Grid ────────────────────── */
@@ -482,43 +458,30 @@
       </div>
     </div>
 
-    <!-- Gallery Row 1 — Diverse indoor scenes -->
     <h3 style="font-size:1.15em; color:var(--text-secondary); margin-bottom:16px;">Dataset Samples</h3>
     <div class="gallery-row">
       <figure class="gallery-card">
-        <div class="img-wrap"><img src="images/img_0014181.jpg" alt="Hand pointing at a laptop on a desk in a home office setting" loading="lazy" width="400" height="300"></div>
-        <figcaption class="gallery-caption"><strong>Home office</strong> — pointing at a laptop screen among desk clutter</figcaption>
+        <div class="img-wrap"><img src="images/img_0014181.jpg" alt="EgoPoint-Ground dataset sample" loading="lazy" width="400" height="300"></div>
       </figure>
       <figure class="gallery-card">
-        <div class="img-wrap"><img src="images/img_0014165.jpg" alt="Hand pointing at items in a kitchen with refrigerator and countertop" loading="lazy" width="400" height="300"></div>
-        <figcaption class="gallery-caption"><strong>Kitchen</strong> — hand gesture toward objects on a countertop with appliances</figcaption>
+        <div class="img-wrap"><img src="images/img_0014165.jpg" alt="EgoPoint-Ground dataset sample" loading="lazy" width="400" height="300"></div>
       </figure>
       <figure class="gallery-card">
-        <div class="img-wrap"><img src="images/img_0014070.jpg" alt="Hand pointing at tools on a workbench in a workshop" loading="lazy" width="400" height="300"></div>
-        <figcaption class="gallery-caption"><strong>Workshop</strong> — pointing at a specific tool among many on a workbench</figcaption>
+        <div class="img-wrap"><img src="images/img_0014070.jpg" alt="EgoPoint-Ground dataset sample" loading="lazy" width="400" height="300"></div>
       </figure>
     </div>
 
-    <!-- Gallery Row 2 — More diverse settings -->
     <div class="gallery-row">
       <figure class="gallery-card">
-        <div class="img-wrap"><img src="images/img_0013930.jpg" alt="Hand pointing at items on shelves in a retail or storage setting" loading="lazy" width="400" height="300"></div>
-        <figcaption class="gallery-caption"><strong>Retail / Storage</strong> — disambiguating a target among densely packed shelves</figcaption>
+        <div class="img-wrap"><img src="images/img_0013930.jpg" alt="EgoPoint-Ground dataset sample" loading="lazy" width="400" height="300"></div>
       </figure>
       <figure class="gallery-card">
-        <div class="img-wrap"><img src="images/img_0002599.jpg" alt="Hand pointing in a living room with furniture and household objects" loading="lazy" width="400" height="300"></div>
-        <figcaption class="gallery-caption"><strong>Living room</strong> — casual pointing toward an object across the room</figcaption>
+        <div class="img-wrap"><img src="images/img_0002599.jpg" alt="EgoPoint-Ground dataset sample" loading="lazy" width="400" height="300"></div>
       </figure>
       <figure class="gallery-card">
-        <div class="img-wrap"><img src="images/img_0003548.jpg" alt="Hand pointing at food items on a dining table or counter" loading="lazy" width="400" height="300"></div>
-        <figcaption class="gallery-caption"><strong>Dining area</strong> — referencing food items in a shared eating space</figcaption>
+        <div class="img-wrap"><img src="images/img_0003548.jpg" alt="EgoPoint-Ground dataset sample" loading="lazy" width="400" height="300"></div>
       </figure>
     </div>
-
-    <p class="gallery-section-note">
-      Each image is annotated with hand bounding box, target object bounding box, dense semantic caption, and visual QA pairs
-      &mdash; uniquely supporting multimodal deictic grounding research.
-    </p>
   </div>
 </section>
 

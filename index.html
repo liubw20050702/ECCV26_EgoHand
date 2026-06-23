@@ -238,8 +238,9 @@
     .gallery-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 16px;
+      gap: 20px;
+      margin-bottom: 20px;
+      align-items: stretch;
     }
     .gallery-card {
       background: var(--card);
@@ -247,30 +248,42 @@
       overflow: hidden;
       border: 1px solid var(--border);
       transition: box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
     }
     .gallery-card:hover {
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
+    .gallery-card .img-wrap {
+      flex-shrink: 0;
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+    }
     .gallery-card img {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
-      aspect-ratio: 4/3;
       object-fit: cover;
     }
     .gallery-caption {
-      padding: 10px 14px;
-      font-size: 0.82em;
+      padding: 12px 16px;
+      font-size: 0.84em;
       color: var(--text-muted);
+      line-height: 1.55;
       border-top: 1px solid var(--border-light);
       background: #fafbfc;
+      flex: 1 1 auto;
     }
-    .gallery-caption strong { color: var(--text-secondary); }
+    .gallery-caption strong {
+      color: var(--text);
+      font-weight: 600;
+    }
 
     .gallery-section-note {
       font-size: 0.9em;
       color: var(--text-muted);
-      margin-top: 12px;
+      margin-top: 16px;
       text-align: center;
       font-style: italic;
     }
@@ -469,36 +482,36 @@
       </div>
     </div>
 
-    <!-- Gallery Row 1 -->
+    <!-- Gallery Row 1 — Diverse indoor scenes -->
     <h3 style="font-size:1.15em; color:var(--text-secondary); margin-bottom:16px;">Dataset Samples</h3>
     <div class="gallery-row">
       <figure class="gallery-card">
-        <img src="images/img_0000001.jpg" alt="Egocentric hand-pointing sample showing a hand gesture toward a target object in an indoor scene" loading="lazy" width="400" height="300">
-        <figcaption class="gallery-caption"><strong>Hand pointing</strong> — egocentric view with annotated hand &amp; target</figcaption>
+        <div class="img-wrap"><img src="data/img/train/img_0014181.jpg" alt="Hand pointing at a laptop on a desk in a home office setting" loading="lazy" width="400" height="300"></div>
+        <figcaption class="gallery-caption"><strong>Home office</strong> — pointing at a laptop screen among desk clutter</figcaption>
       </figure>
       <figure class="gallery-card">
-        <img src="images/img_0000020.jpg" alt="Egocentric hand-pointing sample in a cluttered multi-object environment" loading="lazy" width="400" height="300">
-        <figcaption class="gallery-caption"><strong>Multi-object scene</strong> — cluttered environment where pointing resolves ambiguity</figcaption>
+        <div class="img-wrap"><img src="data/img/train/img_0014165.jpg" alt="Hand pointing at items in a kitchen with refrigerator and countertop" loading="lazy" width="400" height="300"></div>
+        <figcaption class="gallery-caption"><strong>Kitchen</strong> — hand gesture toward objects on a countertop with appliances</figcaption>
       </figure>
       <figure class="gallery-card">
-        <img src="images/img_0000040.jpg" alt="Egocentric hand-pointing sample showing a natural pointing gesture in a daily setting" loading="lazy" width="400" height="300">
-        <figcaption class="gallery-caption"><strong>Daily scenario</strong> — natural hand gesture toward a target object</figcaption>
+        <div class="img-wrap"><img src="data/img/train/img_0014070.jpg" alt="Hand pointing at tools on a workbench in a workshop" loading="lazy" width="400" height="300"></div>
+        <figcaption class="gallery-caption"><strong>Workshop</strong> — pointing at a specific tool among many on a workbench</figcaption>
       </figure>
     </div>
 
-    <!-- Gallery Row 2 -->
+    <!-- Gallery Row 2 — More diverse settings -->
     <div class="gallery-row">
       <figure class="gallery-card">
-        <img src="images/img_0000330.jpg" alt="Egocentric hand-pointing sample in an indoor setting with partial hand visibility" loading="lazy" width="400" height="300">
-        <figcaption class="gallery-caption"><strong>Indoor setting</strong> — pointing with partial hand visibility and occlusion</figcaption>
+        <div class="img-wrap"><img src="data/img/train/img_0013930.jpg" alt="Hand pointing at items on shelves in a retail or storage setting" loading="lazy" width="400" height="300"></div>
+        <figcaption class="gallery-caption"><strong>Retail / Storage</strong> — disambiguating a target among densely packed shelves</figcaption>
       </figure>
       <figure class="gallery-card">
-        <img src="images/img_0001137.jpg" alt="Egocentric hand-pointing sample in a kitchen scenario" loading="lazy" width="400" height="300">
-        <figcaption class="gallery-caption"><strong>Kitchen scene</strong> — common everyday reference resolution scenario</figcaption>
+        <div class="img-wrap"><img src="data/img/train/img_0002599.jpg" alt="Hand pointing in a living room with furniture and household objects" loading="lazy" width="400" height="300"></div>
+        <figcaption class="gallery-caption"><strong>Living room</strong> — casual pointing toward an object across the room</figcaption>
       </figure>
       <figure class="gallery-card">
-        <img src="images/img_0001651.jpg" alt="Egocentric hand-pointing sample with multiple candidate objects and hand cue" loading="lazy" width="400" height="300">
-        <figcaption class="gallery-caption"><strong>Complex layout</strong> — multiple candidate objects disambiguated by hand cue</figcaption>
+        <div class="img-wrap"><img src="data/img/train/img_0003548.jpg" alt="Hand pointing at food items on a dining table or counter" loading="lazy" width="400" height="300"></div>
+        <figcaption class="gallery-caption"><strong>Dining area</strong> — referencing food items in a shared eating space</figcaption>
       </figure>
     </div>
 
